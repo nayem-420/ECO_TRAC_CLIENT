@@ -19,9 +19,7 @@ const Login = () => {
         </Link>
         <div className="w-full max-w-md">
           <h2 className="text-3xl text-white font-bold mb-2">Login</h2>
-          <p className="text-white mb-6">
-            We are glad to see you again!
-          </p>
+          <p className="text-white/95 mb-6">We are glad to see you again !</p>
 
           <form className="space-y-4">
             <div>
@@ -71,6 +69,11 @@ const Login = () => {
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                 ></button>
               </div>
+            </div>
+            <div>
+              <Link to={"/forget-password"} className="link link-hover">
+                Forgot password?
+              </Link>
             </div>
 
             <p className="mt-8 text-sm">

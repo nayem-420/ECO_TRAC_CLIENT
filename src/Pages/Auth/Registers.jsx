@@ -19,7 +19,7 @@ const Registers = () => {
         </Link>
         <div className="w-full max-w-md">
           <h2 className="text-3xl text-white font-bold mb-2">Register</h2>
-          <p className="text-white mb-6">
+          <p className="text-white/95 mb-6">
             Register to try our amazing services
           </p>
 
