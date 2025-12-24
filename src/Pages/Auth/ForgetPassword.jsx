@@ -17,7 +17,7 @@ const ForgetPassword = () => {
             <Logo></Logo>
           </Link>
           <div className="w-full max-w-md">
-            <h2 className="text-3xl font-bold mb-2">Forgot Password?</h2>
+            <h2 className="text-3xl text-green-500 font-bold mb-2">Forgot Password?</h2>
             <p className="text-white/95 mb-6">
               No worries, we'll send you reset instructions
             </p>
@@ -27,7 +27,7 @@ const ForgetPassword = () => {
             >
               <div>
                 <label className="label">
-                  <span className="label-text">Email Address</span>
+                  <span className="label-text text-black">Email Address</span>
                 </label>
                 <input
                   type="email"

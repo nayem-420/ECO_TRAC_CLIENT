@@ -18,7 +18,7 @@ const Login = () => {
           <Logo></Logo>
         </Link>
         <div className="w-full max-w-md">
-          <h2 className="text-3xl text-white font-bold mb-2">Login</h2>
+          <h2 className="text-3xl text-green-500 font-bold mb-2">Login</h2>
           <p className="text-white/95 mb-6">We are glad to see you again !</p>
 
           <form className="space-y-4">
