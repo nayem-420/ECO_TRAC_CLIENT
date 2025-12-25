@@ -1,9 +1,50 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Logo from "../../Shared/Logo";
 import SocialLogin from "./SocialLogin";
+import useAuth from "../../hooks/useAuth";
+import LoadingSpinner from "../../Components/LoadingSpinner";
+import Swal from "sweetalert2";
 
 const Registers = () => {
+  const { setUser, registerUser, loading } = useAuth();
+  const navigate = useNavigate();
+
+  if (loading) return <LoadingSpinner></LoadingSpinner>;
+
+  const handleRegister = (e) => {
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const photoFile = form.photo.files[0];
+    const password = form.password.value;
+
+    if (password.length < 6) {
+      console.log("Password must be at least 6 characters");
+      return;
+    }
+
+    registerUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Registration Successful!",
+          text: `Welcome ${name}! 🌿`,
+          showConfirmButton: false,
+          timer: 2000,
+          toast: true,
+        });
+        form.reset();
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log("Firebase Error:", error.message);
+        Swal.fire("Error", error.message, "error");
+      });
+  };
   return (
     <div
       className="hero min-h-screen"
@@ -23,15 +64,17 @@ const Registers = () => {
             Register to try our amazing services
           </p>
 
-          <form className="space-y-4">
+          <form onSubmit={handleRegister} className="space-y-4">
             <div>
               <label className="label">
                 <span className="label-text text-black">Name</span>
               </label>
               <input
+                name="name"
                 type="text"
                 placeholder="Enter your name"
                 className="input input-bordered w-full"
+                required
               />
             </div>
 
@@ -40,9 +83,11 @@ const Registers = () => {
                 <span className="label-text text-black">Email</span>
               </label>
               <input
+                name="email"
                 type="email"
                 placeholder="Enter your email"
                 className="input input-bordered w-full"
+                required
               />
             </div>
 
@@ -51,6 +96,7 @@ const Registers = () => {
                 <span className="label-text text-black">Profile Photo</span>
               </label>
               <input
+                name="photo"
                 type="file"
                 className="file-input file-input-bordered w-full"
               />
@@ -63,8 +109,10 @@ const Registers = () => {
               <div className="relative">
                 <input
                   type="password"
+                  name="password"
                   placeholder="Enter password"
                   className="input input-bordered w-full pr-12"
+                  required
                 />
                 <button
                   type="button"
