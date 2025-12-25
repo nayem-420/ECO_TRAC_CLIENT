@@ -9,6 +9,8 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 const MyActivityDetails = () => {
   const { id } = useParams();
   const { user, loading: authLoading } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
 
   const [activity, setActivity] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,7 +23,7 @@ const MyActivityDetails = () => {
     const fetchActivity = async () => {
       try {
         setLoading(true);
-        const { data } = await useAxiosSecure.get(
+        const { data } = await axiosSecure.get(
           `/user-challenges/activity/${id}`
         );
         setActivity(data);
@@ -34,7 +36,7 @@ const MyActivityDetails = () => {
     };
 
     fetchActivity();
-  }, [userId, id]);
+  }, [userId, id, axiosSecure]);
 
   const handleUpdateProgress = async () => {
     if (!activity) return;
@@ -51,16 +53,12 @@ const MyActivityDetails = () => {
     }
 
     try {
-      const { data } = await useAxiosSecure.patch(
-        `/user-challenges/${userId}/${id}`,
-        {
-          progress: progressNum,
-        }
+      const { data } = await axiosSecure.patch(
+        `/api/user-challenges/activity/${id}`,
+        { progress: progressNum }
       );
 
-      if (!data.success) {
-        throw new Error(data.message);
-      }
+      if (!data.success) throw new Error("Update failed");
 
       toast.success("Progress updated!");
 
