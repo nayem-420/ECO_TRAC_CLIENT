@@ -12,7 +12,7 @@ const ChallengesList = () => {
     const fetchChallenges = async () => {
       try {
         setLoading(true);
-        const { data } = await useAxiosSecure.get("/challenges");
+        const { data } = await useAxiosSecure.get("/api/challenges");
         setChallenges(data);
       } catch (err) {
         console.error(err);
