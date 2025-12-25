@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
-import LoadingSpinner from "../../Components/LoadingSpinner";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import LoadingSpinner from "../../Components/LoadingSpinner";
 
 const MyActivities = () => {
   const { user, loading: authLoading } = useAuth();
-
+  const axiosSecure = useAxiosSecure();
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -19,7 +19,7 @@ const MyActivities = () => {
     const fetchActivities = async () => {
       try {
         setLoading(true);
-        const { data } = await useAxiosSecure.get(`/user-challenges/${userId}`);
+        const { data } = await axiosSecure.get(`/user-challenges/${userId}`);
         setActivities(data);
       } catch (error) {
         console.error(error);
@@ -30,7 +30,7 @@ const MyActivities = () => {
     };
 
     fetchActivities();
-  }, [userId]);
+  }, [userId,axiosSecure]);
 
   const handleUpdateProgress = async (activityId, currentProgress) => {
     const newProgress = prompt("Enter progress (0 - 100)", currentProgress);

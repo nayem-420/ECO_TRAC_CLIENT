@@ -3,11 +3,13 @@ import { useParams } from "react-router";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
 
 const ChallengeDetails = () => {
   const { id } = useParams();
   const [challenge, setChallenge] = useState(null);
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchChallenge = async () => {
@@ -29,7 +31,7 @@ const ChallengeDetails = () => {
     );
 
   const handleJoin = async () => {
-    const userId = "user@example.com";
+    const userId = user?.email;
 
     try {
       const { data } = await axiosSecure.post(

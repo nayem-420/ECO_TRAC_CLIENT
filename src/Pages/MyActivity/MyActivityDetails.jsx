@@ -3,8 +3,8 @@ import { useParams } from "react-router";
 import toast from "react-hot-toast";
 
 import LoadingSpinner from "../../Components/LoadingSpinner";
-import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
 
 const MyActivityDetails = () => {
   const { id } = useParams();
