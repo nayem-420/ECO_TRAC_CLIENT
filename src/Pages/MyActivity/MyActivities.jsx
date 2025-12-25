@@ -19,7 +19,9 @@ const MyActivities = () => {
     const fetchActivities = async () => {
       try {
         setLoading(true);
-        const { data } = await axiosSecure.get(`/user-challenges/${userId}`);
+        const { data } = await axiosSecure.get(
+          `/api/user-challenges/${userId}`
+        );
         setActivities(data);
       } catch (error) {
         console.error(error);
@@ -45,8 +47,8 @@ const MyActivities = () => {
     }
 
     try {
-      const { data } = await useAxiosSecure.patch(
-        `/user-challenges/${userId}/${activityId}`,
+      const { data } = await axiosSecure.patch(
+        `/api/user-challenges/activity/${activityId}`,
         { progress: progressNum }
       );
 
