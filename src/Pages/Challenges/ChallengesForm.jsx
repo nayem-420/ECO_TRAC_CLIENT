@@ -1,8 +1,10 @@
 import { useState } from "react";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const ChallengesForm = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const axiosSecure = useAxiosSecure();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,22 +28,14 @@ const ChallengesForm = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/api/challenges", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(challenge),
-      });
+      const res = await axiosSecure.post("/challenges", challenge);
 
-      if (res.ok) {
+      if (res.status === 201 || res.status === 200) {
         setSuccess(true);
         form.reset();
-      } else {
-        console.log("Error:", await res.text());
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error:", error.response?.data?.message || error.message);
     }
 
     setLoading(false);
@@ -95,7 +89,6 @@ const ChallengesForm = () => {
             className="input input-bordered w-full"
             required
           />
-
           <input
             type="text"
             name="target"
