@@ -7,18 +7,19 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 const ChallengeDetails = () => {
   const { id } = useParams();
   const [challenge, setChallenge] = useState(null);
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     const fetchChallenge = async () => {
       try {
-        const { data } = await useAxiosSecure.get(`/challenges/${id}`);
+        const { data } = await axiosSecure.get(`/api/challenges/${id}`);
         setChallenge(data);
       } catch (err) {
         console.log(err);
       }
     };
     fetchChallenge();
-  }, [id]);
+  }, [id,axiosSecure]);
 
   if (!challenge)
     return (
@@ -31,14 +32,14 @@ const ChallengeDetails = () => {
     const userId = "user@example.com";
 
     try {
-      const { data } = await useAxiosSecure.post(
-        `/challenges/join/${challenge._id}`,
+      const { data } = await axiosSecure.post(
+        `/api/challenges/join/${challenge._id}`,
         { userId }
       );
 
       if (data.success) {
         toast.success("Challenge joined successfully!");
-        window.location.href = `/my-activities/${challenge._id}`;
+        window.location.href = `/api/user-challenges/activity/${challenge._id}`;
       } else {
         toast.success(data.message);
       }
