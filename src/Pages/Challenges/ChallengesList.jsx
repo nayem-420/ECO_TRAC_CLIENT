@@ -7,12 +7,13 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 const ChallengesList = () => {
   const [challenges, setChallenges] = useState([]);
   const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
         setLoading(true);
-        const { data } = await useAxiosSecure.get("/api/challenges");
+        const { data } = await axiosSecure.get("/api/challenges");
         setChallenges(data);
       } catch (err) {
         console.error(err);
@@ -71,7 +72,7 @@ const ChallengesList = () => {
               </div>
 
               <div className="card-actions justify-end mt-4">
-                <Link to={`/challenges/${ch._id}`}>
+                <Link to={`/api/challenges/${ch._id}`}>
                   <button className="btn btn-primary btn-sm">
                     View Details
                   </button>
