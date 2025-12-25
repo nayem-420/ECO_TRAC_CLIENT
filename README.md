@@ -1,16 +1,43 @@
-# React + Vite
+# EcoTrack — Sustainable Living Community
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A community platform for eco-conscious people to discover and join sustainability challenges, share practical eco-tips, browse local green events, and track personal environmental impact — focused on measurable, community-driven progress.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌿 Features
 
-## React Compiler
+1. **Dynamic Challenges:** Browse, join, and track ongoing eco-challenges with live progress.
+2. **Community Impact Stats:** Total CO₂ saved, Kg of plastic reduced, and more aggregated from all users.
+3. **Eco Tips & Events:** Users can read and share sustainability tips; view upcoming local green events.
+4. **Authentication:** Email/Password and Google login/register; secure protected routes for users.
+5. **Progress Tracking:** Track user participation in challenges with progress percentage and updates.
+6. **Responsive Design:** Works seamlessly on desktop, tablet, and mobile devices.
+7. **Loading UX & Notifications:** Global spinner, skeleton loaders, and styled toast notifications for errors and success messages.
+8. **Accessible & Secure:** Semantic HTML, alt tags, focus states, and secure environment variables.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🗂️ Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Client (React + Tailwind + daisyUI)
+- Public Pages: Home, Challenges Listing, Challenge Details
+- Protected Pages: My Activities, Challenge Join, Profile (optional)
+- Layouts: Public layout and Dashboard layout
+- Components: Navbar, Footer, Cards, Hero Banner, Tips & Events Lists, Loading Spinner, Toast Notifications
+
+### Server (Node.js + Express + MongoDB)
+- Collections:
+  - `challenges` – store challenges with title, category, description, duration, participants, and impact metric.
+  - `userChallenges` – track each user’s participation and progress.
+  - `tips` – community-submitted eco tips.
+  - `events` – upcoming green events.
+- Endpoints:
+  - `GET /api/challenges` — list challenges (with filters)
+  - `GET /api/challenges/:id` — challenge details
+  - `POST /api/challenges` — create challenge (admin/owner)
+  - `PATCH /api/challenges/:id` — update challenge
+  - `DELETE /api/challenges/:id` — delete challenge
+  - `POST /api/challenges/join/:id` — join challenge (protected)
+
+---
+
