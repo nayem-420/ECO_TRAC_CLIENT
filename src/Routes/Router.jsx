@@ -6,6 +6,11 @@ import AuthLayout from "../Layouts/AuthLayouts/AuthLayout";
 import Registers from "../Pages/Auth/Registers";
 import Login from "../Pages/Auth/Login";
 import ForgetPassword from "../Pages/Auth/ForgetPassword";
+import ChallengesForm from "../Pages/Challenges/ChallengesForm";
+import ChallengesList from "../Pages/Challenges/ChallengesList";
+import ChallengeDetails from "../Pages/Challenges/ChallengeDetails";
+import MyActivityDetails from "../Pages/MyActivity/MyActivityDetails";
+import MyActivities from "../Pages/MyActivity/MyActivities";
 
 export const router = createBrowserRouter([
   {
@@ -15,6 +20,26 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home></Home>,
+      },
+      {
+        path: "challenges",
+        element: <ChallengesForm></ChallengesForm>,
+      },
+      {
+        path: "challenges-all",
+        element: <ChallengesList></ChallengesList>,
+      },
+      {
+        path: "challenges/:id",
+        element: <ChallengeDetails></ChallengeDetails>,
+      },
+      {
+        path: "/my-activities/:id",
+        element: <MyActivityDetails></MyActivityDetails>,
+      },
+      {
+        path: "/my-activities",
+        element: <MyActivities></MyActivities>
       },
     ],
   },
