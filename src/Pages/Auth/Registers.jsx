@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import Logo from "../../Shared/Logo";
 import SocialLogin from "./SocialLogin";
 import useAuth from "../../hooks/useAuth";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import Swal from "sweetalert2";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Registers = () => {
   const { setUser, registerUser, loading } = useAuth();
+  const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
 
   if (loading) return <LoadingSpinner></LoadingSpinner>;
@@ -38,7 +40,7 @@ const Registers = () => {
           toast: true,
         });
         form.reset();
-        navigate("/");
+        navigate(location.state?.from?.pathname || "/");
       })
       .catch((error) => {
         console.log("Firebase Error:", error.message);
@@ -108,12 +110,18 @@ const Registers = () => {
               </label>
               <div className="relative">
                 <input
-                  type="password"
+                  type={showPass ? "text" : "password"}
                   name="password"
                   placeholder="Enter password"
                   className="input input-bordered w-full pr-12"
                   required
                 />
+                <span
+                  onClick={() => setShowPass(!showPass)}
+                  className="absolute right-3 top-3 text-xl cursor-pointer text-gray-500 hover:text-green-600"
+                >
+                  {showPass ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                </span>
                 <button
                   type="button"
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
