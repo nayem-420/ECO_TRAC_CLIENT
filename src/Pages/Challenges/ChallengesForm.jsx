@@ -1,55 +1,49 @@
 import { useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const ChallengesForm = () => {
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const axiosSecure = useAxiosSecure();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setSuccess(false);
+ const handleSubmit = async (e) => {
+   e.preventDefault();
+   setLoading(true);
 
-    const form = e.target;
+   const form = e.target;
 
-    const challenge = {
-      title: form.title.value,
-      category: form.category.value,
-      description: form.description.value,
-      duration: Number(form.duration.value),
-      target: form.target.value,
-      participants: 0,
-      impactMetric: form.impactMetric.value,
-      createdBy: form.createdBy.value,
-      startDate: form.startDate.value,
-      endDate: form.endDate.value,
-      imageUrl: form.imageUrl.value,
-    };
+   const challenge = {
+     title: form.title.value,
+     category: form.category.value,
+     description: form.description.value,
+     duration: Number(form.duration.value),
+     target: form.target.value,
+     participants: 0,
+     impactMetric: form.impactMetric.value,
+     createdBy: form.createdBy.value,
+     startDate: form.startDate.value,
+     endDate: form.endDate.value,
+     imageUrl: form.imageUrl.value,
+   };
 
-    try {
-      const res = await axiosSecure.post("/challenges", challenge);
+   try {
+     const res = await axiosSecure.post("/api/challenges", challenge);
 
-      if (res.status === 201 || res.status === 200) {
-        setSuccess(true);
-        form.reset();
-      }
-    } catch (error) {
-      console.log("Error:", error.response?.data?.message || error.message);
-    }
+     if (res.status === 201 || res.status === 200) {
+       toast.success("Challenge Added Successfully! 🎉");
+       form.reset(); 
+     }
+   } catch (error) {
+     toast.error(error.response?.data?.message || "Something went wrong!");
+     console.log("Error:", error);
+   }
 
-    setLoading(false);
-  };
+   setLoading(false);
+ };
 
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 shadow-md rounded-lg bg-base-200">
       <h2 className="text-2xl font-bold mb-4 text-center">Create Challenge</h2>
-
-      {success && (
-        <div className="alert alert-success mb-4">
-          <span>Challenge Added Successfully!</span>
-        </div>
-      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <input

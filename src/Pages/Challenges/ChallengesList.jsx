@@ -1,30 +1,39 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import LoadingSpinner from "../../Components/LoadingSpinner";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import ChallengeListCard from "./ChallengeListCard";
 
 const ChallengesList = () => {
-  const [challenges, setChallenges] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const axiosSecure = useAxiosSecure();
 
-  useEffect(() => {
-    const fetchChallenges = async () => {
-      try {
-        setLoading(true);
-        const { data } = await axiosSecure.get("/api/challenges");
-        setChallenges(data);
-      } catch (err) {
-        console.error(err);
-        toast.error("Failed to load challenges");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const { data: challenges = [], loading } = useQuery({
+    queryKey: ["challenges"],
+    queryFn: () => {
+      const response = axiosSecure.get("/api/challenges");
+      return response.data;
+    },
+  });
 
-    fetchChallenges();
-  }, []);
+  // useEffect(() => {
+  //   const fetchChallenges = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const { data } = await axiosSecure.get("/api/challenges");
+  //       setChallenges(data);
+  //     } catch (err) {
+  //       console.error(err);
+  //       toast.error("Failed to load challenges");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchChallenges();
+  // }, [axiosSecure]);
 
   if (loading) {
     return (
@@ -40,46 +49,7 @@ const ChallengesList = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {challenges.map((ch) => (
-          <div key={ch._id} className="card bg-base-200 shadow-md">
-            <figure>
-              <img
-                src={ch.imageUrl}
-                alt={ch.title}
-                className="h-40 w-full object-cover"
-              />
-            </figure>
-
-            <div className="card-body">
-              <h2 className="card-title">{ch.title}</h2>
-              <p className="text-sm opacity-70">{ch.description}</p>
-
-              <div className="mt-2 text-sm">
-                <p>
-                  <span className="font-semibold">Category:</span> {ch.category}
-                </p>
-                <p>
-                  <span className="font-semibold">Duration:</span> {ch.duration}{" "}
-                  days
-                </p>
-                <p>
-                  <span className="font-semibold">Impact:</span>{" "}
-                  {ch.impactMetric}
-                </p>
-                <p>
-                  <span className="font-semibold">Participants:</span>{" "}
-                  {ch.participants}
-                </p>
-              </div>
-
-              <div className="card-actions justify-end mt-4">
-                <Link to={`/api/challenges/${ch._id}`}>
-                  <button className="btn btn-primary btn-sm">
-                    View Details
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
+          <ChallengeListCard key={ch._id} challenge={ch} />
         ))}
       </div>
     </div>
